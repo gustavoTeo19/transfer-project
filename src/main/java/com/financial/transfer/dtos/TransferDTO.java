@@ -15,7 +15,7 @@ public record TransferDTO(
                 String destinationAccount,
 
                 @NotNull
-                BigDecimal transferValue,
+                BigDecimal transferAmount,
 
                 @NotNull
                 LocalDateTime transferDate

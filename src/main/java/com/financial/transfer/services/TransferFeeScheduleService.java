@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -19,19 +21,26 @@ public class TransferFeeScheduleService {
         return transferFeeScheduleRepository.findAll(pageable);
     }
 
-    public String calculate(int days, BigDecimal amount){
+    public TransferFeeScheduleModel findSchedule(int days){
         Optional<TransferFeeScheduleModel> schedule =
                 transferFeeScheduleRepository.findByStartDaysLessThanEqualAndEndDaysGreaterThanEqual(days, days);
+        return schedule.orElse(null);
+    }
 
-        if(schedule.isEmpty()){
-            return "Não é nenhuma tarifa";
-        }else{
-            BigDecimal percentualFee = schedule.get().getPercentualFee();
-            System.out.print(schedule.get());
-            BigDecimal fullFee = percentualFee.multiply(amount).add(schedule.get().getFixedFee());
+    public BigDecimal calculate(TransferFeeScheduleModel scheduleFee, BigDecimal amount){
+        BigDecimal percentualFee = scheduleFee.getPercentualFee();
+        System.out.print(scheduleFee);
+        return percentualFee.multiply(amount).add(scheduleFee.getFixedFee());
+    }
 
-            return "O valor da tarifa é de "+ fullFee;
+    public int getDaysBetween(LocalDateTime transferDate, LocalDateTime schedulingDate){
+        System.out.println(schedulingDate);
+
+        Duration duration = Duration.between(schedulingDate, transferDate);
+        long daysLong = duration.toDays();
+        if (daysLong > Integer.MAX_VALUE) {
+            throw new ArithmeticException("A diferença de dias é muito grande para ser representada como um int.");
         }
-
+        return (int) daysLong;
     }
 }
