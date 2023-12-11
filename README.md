@@ -27,3 +27,6 @@ A API será executada na porta 8080 http://localhost:8080
 * Fazer transferência - POST /transfer/api/v1
 * Calcular transferência - POST /transfer/api/v1/calculete-transfer
 * Listar taxas de transferência - GET /transfer/api/v1/list-transfer-fee-schedule
+
+##  Executando o Projeto
+`mvn spring-boot:run`
