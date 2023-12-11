@@ -23,7 +23,7 @@ import java.time.ZoneId;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("transfer")
+@RequestMapping("transfer/api/v1")
 public class TransferController {
     @Autowired
     TransferService transferService;
