@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("transfer")
 public class TransferController {
     @Autowired
@@ -35,14 +36,13 @@ public class TransferController {
         LocalDateTime schedulingDate = LocalDateTime.now(ZoneId.of("UTC"));
 
         int days = transferFeeScheduleService.getDaysBetween(body.transferDate(), schedulingDate);
-        System.out.println(days);
         TransferFeeScheduleModel scheduleFee = transferFeeScheduleService.findSchedule(days);
         if(scheduleFee == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe nenhuma tarifa");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe nenhuma tarifa para essa data");
         }
         BigDecimal fullFee = transferFeeScheduleService.calculate(scheduleFee, body.transferAmount());
         if(fullFee == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe nenhuma tarifa");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe nenhuma tarifa para essa data");
         }
         TransferModel transferModel = new TransferModel();
         BeanUtils.copyProperties(body, transferModel);
@@ -66,14 +66,13 @@ public class TransferController {
         LocalDateTime schedulingDate = LocalDateTime.now(ZoneId.of("UTC"));
 
         int days = transferFeeScheduleService.getDaysBetween(body.transferDate(), schedulingDate);
-        System.out.println(days);
         TransferFeeScheduleModel scheduleFee = transferFeeScheduleService.findSchedule(days);
         if(scheduleFee == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe nenhuma tarifa");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe nenhuma tarifa para essa data");
         }
         BigDecimal fullFee = transferFeeScheduleService.calculate(scheduleFee, body.transferAmount());
         if(fullFee == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe nenhuma tarifa");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe nenhuma tarifa para essa data");
         }
         return ResponseEntity.status(HttpStatus.OK).body("O valor da tarifa é de "+ fullFee);
 

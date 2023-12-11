@@ -29,12 +29,10 @@ public class TransferFeeScheduleService {
 
     public BigDecimal calculate(TransferFeeScheduleModel scheduleFee, BigDecimal amount){
         BigDecimal percentualFee = scheduleFee.getPercentualFee();
-        System.out.print(scheduleFee);
         return percentualFee.multiply(amount).add(scheduleFee.getFixedFee());
     }
 
     public int getDaysBetween(LocalDateTime transferDate, LocalDateTime schedulingDate){
-        System.out.println(schedulingDate);
 
         Duration duration = Duration.between(schedulingDate, transferDate);
         long daysLong = duration.toDays();
