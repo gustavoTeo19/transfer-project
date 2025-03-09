@@ -52,7 +52,7 @@ public class TransferController {
         return ResponseEntity.status(HttpStatus.OK).body(transferService.save(transferModel));
     }
 
-    @GetMapping("/list-transfer")
+    @GetMapping("/list-transfers")
     public ResponseEntity getTransferchedule(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(transferService.findAll(pageable));
     }
