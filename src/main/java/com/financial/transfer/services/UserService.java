@@ -20,7 +20,7 @@ public class UserService implements UserDetailsService {
 
         return User.builder()
                 .username(user.getUsername())
-                .password("{noop}" + user.getPassword()) // usar {bcrypt} se estiver criptografado
+                .password(user.getPassword()) // usar {bcrypt} se estiver criptografado
                 .roles("USER")
                 .build();
     }
